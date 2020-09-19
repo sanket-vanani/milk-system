@@ -12,6 +12,7 @@ const { signIn, welcome } = require('./middleware/Auth')
 
 //importing router
 const dairyRoute = require('./routes/DairyRoute')
+const customerRoute = require('./routes/CustomerRoute')
 
 //using middleware
 app.use(bodyParser.json())
@@ -27,7 +28,7 @@ const Customer = require('./models/Customer')
 const MilkCollection = require('./models/MilkCollection')
 const LocalSale = require('./models/LocalSale')
 
-//model synchronization
+// model synchronization
 // sequelize.sync({ alter: true })
 //     .then(() => {
 //         console.log("Model updated")
@@ -45,8 +46,10 @@ const LocalSale = require('./models/LocalSale')
 app.use('/signin', signIn)
 
 //Dairy operation
-app.use('/dairy',dairyRoute)
+app.use('/dairy', dairyRoute)
 
+//Customer operation
+app.use('/customer', customerRoute)
 
 app.listen(PORT, (err) => {
     if (err) throw err;
