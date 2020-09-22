@@ -13,6 +13,8 @@ const { signIn, welcome } = require('./middleware/Auth')
 //importing router
 const dairyRoute = require('./routes/DairyRoute')
 const customerRoute = require('./routes/CustomerRoute')
+const milkCollectionRoute = require('./routes/MilkCollectionRoute')
+const localSaleRoute = require('./routes/LocalSaleRoute')
 
 //using middleware
 app.use(bodyParser.json())
@@ -50,6 +52,13 @@ app.use('/dairy', dairyRoute)
 
 //Customer operation
 app.use('/customer', customerRoute)
+
+//Milk Collection Opertaion
+app.use('/milk-collection', milkCollectionRoute)
+
+//Local Sale Operation
+app.use('/local-sale', localSaleRoute)
+
 
 app.listen(PORT, (err) => {
     if (err) throw err;

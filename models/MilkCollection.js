@@ -34,7 +34,7 @@ const MilkCollection = sequelize.define('MilkCollection',
             allowNull: false,
         },
         addDate: {
-            type: Sequelize.DATEONLY,
+            type: Sequelize.STRING,
             allowNull: false,
         },
         timeslot: {

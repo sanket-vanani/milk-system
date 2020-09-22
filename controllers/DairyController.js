@@ -36,14 +36,14 @@ exports.getDairyById = (req, res) => {
             if (Dairy.length > 0) {
                 // Dairy.password = md5(Dairy.password)
                 var data = {
-                    status: false,
+                    status: true,
                     message: "Dairy Found",
                     result: Dairy
                 }
             }
             else {
                 var data = {
-                    status: false,
+                    status: true,
                     message: "Dairy Not available",
                     result: Dairy
                 }

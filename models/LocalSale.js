@@ -10,7 +10,7 @@ const LocalSale = sequelize.define('LocalSale',
             allowNull: false,
         },
         saleDate: {
-            type: Sequelize.DATEONLY,
+            type: Sequelize.STRING,
             allowNull: false
         },
         animalType: {
