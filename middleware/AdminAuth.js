@@ -1,17 +1,21 @@
 const Admin = require('../models/Admin')
+const jwt = require('jsonwebtoken')
+
+const jwtKey = "dh@milksystem-8509"
+const jwtExpirySeconds = 259200 //86400 second for 1 day..Here it is set for 3 days
 const signInAdmin = (req, res) => {
-    const { email, password } = req.body
-    // console.log(req.body)
+    const { username, password } = req.body
+    console.log(req.body)
     Admin.findAll({
         where: {
-            userName: userName,
+            userName: username,
             password: password
         }
     })
         .then(results => {
             if (results.length > 0) {
                 if (password == results[0].password) {
-                    const token = jwt.sign({ email }, jwtKey, {
+                    const token = jwt.sign({ username }, jwtKey, {
                         algorithm: "HS256",
                         expiresIn: jwtExpirySeconds,
                     })

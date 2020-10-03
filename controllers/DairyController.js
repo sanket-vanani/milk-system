@@ -11,21 +11,26 @@ exports.addDairy = (req, res) => {
     const { userName } = req.body
     data.password = md5(data.password)
     Dairy.create(data)
-        .then((Dairy) => {
-            console.log("Auto id ", Dairy.id)
-
+        .then((response) => {
+            console.log("Auto id ", response.id)
+            const dairyid = response.id
             const token = jwt.sign({ userName }, jwtKey, {
                 algorithm: "HS256",
                 expiresIn: jwtExpirySeconds,
             })
-
-            let data = {
-                status: true,
-                _token: token,
-                message: "Dairy Added",
-                result: Dairy
-            }
-            return res.status(200).json(data)
+            Dairy.findAll({
+                where:{
+                    id:dairyid
+                }
+            }).then(dairy => {
+                let data = {
+                    status: true,
+                    _token: token,
+                    message: "Dairy Added",
+                    result: dairy
+                }
+                return res.status(200).json(data);
+            })
         })
         .catch((error) => {
             console.log(error)

@@ -81,7 +81,7 @@ app.get('/admin', (req, res) => {
 })
 
 
-app.post('/admin/login', signInAdmin)
+app.use('/admin/login', signInAdmin)
 app.listen(PORT, (err) => {
     if (err) throw err;
     console.log(`Server running on http://${HOSTNAME}:${PORT}`)

@@ -24,11 +24,11 @@ head
           form.text-left(method="post" action="/admin/login")
             .form
               #username-field.field-wrapper.input
-                label(for='email') EMAIL
+                label(for='email') Username
                 svg.feather.feather-user(xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewbox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round')
                   path(d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2')
                   circle(cx='12' cy='7' r='4')
-                input#username.form-control(name='email' type='email' placeholder='e.g John_Doe')
+                input#username.form-control(name='username' type='text' placeholder='e.g John_Doe')
               #password-field.field-wrapper.input.mb-2
                 .d-flex.justify-content-between
                   label(for='password') PASSWORD

@@ -13,7 +13,8 @@ const Dairy = sequelize.define('Dairy',
         //user name
         userName: {
             type: Sequelize.STRING,
-            allowNull: false
+            allowNull: false,
+            unique: true
         },
         //password
         password: {
@@ -38,7 +39,8 @@ const Dairy = sequelize.define('Dairy',
         //Phone number
         phoneNumber: {
             type: Sequelize.STRING,
-            allowNull: false
+            allowNull: false,
+            unique:true
         },
         createdAt: Sequelize.DATE,
         updatedAt: Sequelize.DATE
