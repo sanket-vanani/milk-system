@@ -1,14 +1,27 @@
 const Dairy = require('../models/Dairy')
 const md5 = require('md5')
 
+const jwt = require('jsonwebtoken')
+
+const jwtKey = "dh@milksystem-8509"
+const jwtExpirySeconds = 259200 //86400 second for 1 day..Here it is set for 3 days
+
 exports.addDairy = (req, res) => {
     var data = req.body
+    const { userName } = req.body
     data.password = md5(data.password)
     Dairy.create(data)
         .then((Dairy) => {
             console.log("Auto id ", Dairy.id)
+
+            const token = jwt.sign({ userName }, jwtKey, {
+                algorithm: "HS256",
+                expiresIn: jwtExpirySeconds,
+            })
+
             let data = {
                 status: true,
+                _token: token,
                 message: "Dairy Added",
                 result: Dairy
             }
