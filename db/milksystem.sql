@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 30, 2020 at 07:49 AM
+-- Generation Time: Oct 03, 2020 at 09:55 AM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.2
 
@@ -25,6 +25,20 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `Admin`
+--
+
+CREATE TABLE `Admin` (
+  `id` int(11) NOT NULL,
+  `userName` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `createdAt` datetime DEFAULT NULL,
+  `updatedAt` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `Customer`
 --
 
@@ -41,14 +55,6 @@ CREATE TABLE `Customer` (
   `createdAt` datetime DEFAULT NULL,
   `updatedAt` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `Customer`
---
-
-INSERT INTO `Customer` (`id`, `customerName`, `phoneNumber`, `fatherName`, `accountNumber`, `IFSCCode`, `bankName`, `villageName`, `address`, `createdAt`, `updatedAt`) VALUES
-(1, 'Customer Test', 78664465, 'Customer father name', '54567757564', 'dfgdgsr', 'Bank Name', 'Village Name', 'Address line', '2020-09-19 13:39:13', '2020-09-19 13:40:28'),
-(3, 'Customer Test', 78664465, 'Customer father name', '54567757564', 'dfgdgsr', 'Bank Name', 'Village Name', 'Address line', '2020-09-19 13:51:43', '2020-09-19 13:51:43');
 
 -- --------------------------------------------------------
 
@@ -68,15 +74,6 @@ CREATE TABLE `Dairy` (
   `updatedAt` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `Dairy`
---
-
-INSERT INTO `Dairy` (`id`, `userName`, `password`, `centerName`, `dairyName`, `dairyAddress`, `phoneNumber`, `createdAt`, `updatedAt`) VALUES
-(1, 'test', '098f6bcd4621d373cade4e832627b4f6', 'surat', 'sumul', 'Sumul road', '8347583112', '2020-09-19 08:01:58', '2020-09-19 13:54:01'),
-(3, 'test', '098f6bcd4621d373cade4e832627b4f6', 'surat', 'sumul', 'Sumul road', '83475831124', '2020-09-19 13:52:45', '2020-09-19 13:52:45'),
-(4, 'test', '098f6bcd4621d373cade4e832627b4f6', 'surat', 'sumul', 'Sumul road', '8347581124', '2020-09-19 13:53:17', '2020-09-19 13:53:17');
-
 -- --------------------------------------------------------
 
 --
@@ -85,13 +82,13 @@ INSERT INTO `Dairy` (`id`, `userName`, `password`, `centerName`, `dairyName`, `d
 
 CREATE TABLE `LocalSale` (
   `id` int(11) NOT NULL,
+  `saleDate` varchar(255) NOT NULL,
   `animalType` varchar(255) NOT NULL,
   `liter` varchar(255) NOT NULL,
   `rate` varchar(255) NOT NULL,
   `totalAmount` varchar(255) NOT NULL,
   `createdAt` datetime DEFAULT NULL,
-  `updatedAt` datetime DEFAULT NULL,
-  `saleDate` varchar(255) NOT NULL
+  `updatedAt` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -108,11 +105,11 @@ CREATE TABLE `MilkCollection` (
   `snf` varchar(255) NOT NULL,
   `rate` varchar(255) NOT NULL,
   `amount` varchar(255) NOT NULL,
+  `addDate` varchar(255) NOT NULL,
   `timeslot` varchar(255) NOT NULL,
   `animalType` varchar(255) NOT NULL,
   `createdAt` datetime DEFAULT NULL,
-  `updatedAt` datetime DEFAULT NULL,
-  `addDate` varchar(255) NOT NULL
+  `updatedAt` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -120,79 +117,25 @@ CREATE TABLE `MilkCollection` (
 --
 
 --
+-- Indexes for table `Admin`
+--
+ALTER TABLE `Admin`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `Customer`
 --
 ALTER TABLE `Customer`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `phoneNumber` (`phoneNumber`);
 
 --
 -- Indexes for table `Dairy`
 --
 ALTER TABLE `Dairy`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `phoneNumber` (`phoneNumber`),
-  ADD UNIQUE KEY `phoneNumber_2` (`phoneNumber`),
-  ADD UNIQUE KEY `phoneNumber_3` (`phoneNumber`),
-  ADD UNIQUE KEY `phoneNumber_4` (`phoneNumber`),
-  ADD UNIQUE KEY `phoneNumber_5` (`phoneNumber`),
-  ADD UNIQUE KEY `phoneNumber_6` (`phoneNumber`),
-  ADD UNIQUE KEY `phoneNumber_7` (`phoneNumber`),
-  ADD UNIQUE KEY `phoneNumber_8` (`phoneNumber`),
-  ADD UNIQUE KEY `phoneNumber_9` (`phoneNumber`),
-  ADD UNIQUE KEY `phoneNumber_10` (`phoneNumber`),
-  ADD UNIQUE KEY `phoneNumber_11` (`phoneNumber`),
-  ADD UNIQUE KEY `phoneNumber_12` (`phoneNumber`),
-  ADD UNIQUE KEY `phoneNumber_13` (`phoneNumber`),
-  ADD UNIQUE KEY `phoneNumber_14` (`phoneNumber`),
-  ADD UNIQUE KEY `phoneNumber_15` (`phoneNumber`),
-  ADD UNIQUE KEY `phoneNumber_16` (`phoneNumber`),
-  ADD UNIQUE KEY `phoneNumber_17` (`phoneNumber`),
-  ADD UNIQUE KEY `phoneNumber_18` (`phoneNumber`),
-  ADD UNIQUE KEY `phoneNumber_19` (`phoneNumber`),
-  ADD UNIQUE KEY `phoneNumber_20` (`phoneNumber`),
-  ADD UNIQUE KEY `phoneNumber_21` (`phoneNumber`),
-  ADD UNIQUE KEY `phoneNumber_22` (`phoneNumber`),
-  ADD UNIQUE KEY `phoneNumber_23` (`phoneNumber`),
-  ADD UNIQUE KEY `phoneNumber_24` (`phoneNumber`),
-  ADD UNIQUE KEY `phoneNumber_25` (`phoneNumber`),
-  ADD UNIQUE KEY `phoneNumber_26` (`phoneNumber`),
-  ADD UNIQUE KEY `phoneNumber_27` (`phoneNumber`),
-  ADD UNIQUE KEY `phoneNumber_28` (`phoneNumber`),
-  ADD UNIQUE KEY `phoneNumber_29` (`phoneNumber`),
-  ADD UNIQUE KEY `phoneNumber_30` (`phoneNumber`),
-  ADD UNIQUE KEY `phoneNumber_31` (`phoneNumber`),
-  ADD UNIQUE KEY `phoneNumber_32` (`phoneNumber`),
-  ADD UNIQUE KEY `phoneNumber_33` (`phoneNumber`),
-  ADD UNIQUE KEY `phoneNumber_34` (`phoneNumber`),
-  ADD UNIQUE KEY `phoneNumber_35` (`phoneNumber`),
-  ADD UNIQUE KEY `phoneNumber_36` (`phoneNumber`),
-  ADD UNIQUE KEY `phoneNumber_37` (`phoneNumber`),
-  ADD UNIQUE KEY `phoneNumber_38` (`phoneNumber`),
-  ADD UNIQUE KEY `phoneNumber_39` (`phoneNumber`),
-  ADD UNIQUE KEY `phoneNumber_40` (`phoneNumber`),
-  ADD UNIQUE KEY `phoneNumber_41` (`phoneNumber`),
-  ADD UNIQUE KEY `phoneNumber_42` (`phoneNumber`),
-  ADD UNIQUE KEY `phoneNumber_43` (`phoneNumber`),
-  ADD UNIQUE KEY `phoneNumber_44` (`phoneNumber`),
-  ADD UNIQUE KEY `phoneNumber_45` (`phoneNumber`),
-  ADD UNIQUE KEY `phoneNumber_46` (`phoneNumber`),
-  ADD UNIQUE KEY `phoneNumber_47` (`phoneNumber`),
-  ADD UNIQUE KEY `phoneNumber_48` (`phoneNumber`),
-  ADD UNIQUE KEY `phoneNumber_49` (`phoneNumber`),
-  ADD UNIQUE KEY `phoneNumber_50` (`phoneNumber`),
-  ADD UNIQUE KEY `phoneNumber_51` (`phoneNumber`),
-  ADD UNIQUE KEY `phoneNumber_52` (`phoneNumber`),
-  ADD UNIQUE KEY `phoneNumber_53` (`phoneNumber`),
-  ADD UNIQUE KEY `phoneNumber_54` (`phoneNumber`),
-  ADD UNIQUE KEY `phoneNumber_55` (`phoneNumber`),
-  ADD UNIQUE KEY `phoneNumber_56` (`phoneNumber`),
-  ADD UNIQUE KEY `phoneNumber_57` (`phoneNumber`),
-  ADD UNIQUE KEY `phoneNumber_58` (`phoneNumber`),
-  ADD UNIQUE KEY `phoneNumber_59` (`phoneNumber`),
-  ADD UNIQUE KEY `phoneNumber_60` (`phoneNumber`),
-  ADD UNIQUE KEY `phoneNumber_61` (`phoneNumber`),
-  ADD UNIQUE KEY `phoneNumber_62` (`phoneNumber`),
-  ADD UNIQUE KEY `phoneNumber_63` (`phoneNumber`);
+  ADD UNIQUE KEY `userName` (`userName`),
+  ADD UNIQUE KEY `phoneNumber` (`phoneNumber`);
 
 --
 -- Indexes for table `LocalSale`
@@ -211,16 +154,22 @@ ALTER TABLE `MilkCollection`
 --
 
 --
+-- AUTO_INCREMENT for table `Admin`
+--
+ALTER TABLE `Admin`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `Customer`
 --
 ALTER TABLE `Customer`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `Dairy`
 --
 ALTER TABLE `Dairy`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `LocalSale`
