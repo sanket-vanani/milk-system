@@ -4,7 +4,7 @@ const { welcome } = require('../middleware/Auth')
 const DairyController = require('../controllers/DairyController')
 
 //Add Dairy
-router.post('/', welcome, DairyController.addDairy)
+router.post('/', DairyController.addDairy)
 
 //Get Dairy by Id
 router.get('/:id', welcome, DairyController.getDairyById)
