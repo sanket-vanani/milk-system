@@ -61,18 +61,18 @@ const LocalSale = require('./models/LocalSale')
 const Admin = require('./models/Admin')
 
 // model synchronization
-sequelize.sync({ force: true })
-    .then(() => {
-        console.log("Model updated")
-        //server running
-        app.listen(PORT, (err) => {
-            if (err) throw err;
-            console.log(`Server running on http://${HOSTNAME}:${PORT}`)
-        })
-    })
-    .catch(error => {
-        console.log(error);
-    });
+// sequelize.sync({ force: true })
+//     .then(() => {
+//         console.log("Model updated")
+//         //server running
+//         app.listen(PORT, (err) => {
+//             if (err) throw err;
+//             console.log(`Server running on http://${HOSTNAME}:${PORT}`)
+//         })
+//     })
+//     .catch(error => {
+//         console.log(error);
+//     });
 
 //Signin 
 app.use('/signin', signIn)
@@ -91,7 +91,7 @@ app.use('/local-sale', localSaleRoute)
 
 
 
-// app.listen(PORT, (err) => {
-//     if (err) throw err;
-//     console.log(`Server running on http://${HOSTNAME}:${PORT}`)
-// })
+app.listen(PORT, (err) => {
+    if (err) throw err;
+    console.log(`Server running on http://${HOSTNAME}:${PORT}`)
+})
