@@ -9,6 +9,10 @@ const Customer = sequelize.define('Customer',
             primaryKey: true,
             allowNull: false
         },
+        dairyId:{
+            type: Sequelize.INTEGER,
+            allowNull: false
+        },
         customerName: {
             type: Sequelize.STRING,
             allowNull: false

@@ -1,5 +1,4 @@
 //imporing required packages
-const { Sequelize } = require('sequelize')
 const sequelize = require('./config')
 const express = require('express')
 const bodyParser = require('body-parser')
@@ -10,9 +9,8 @@ require('dotenv').config()
 const path = require('path')
 
 //importig middleware
-const { signIn, welcome } = require('./middleware/Auth')
-
-const { signInAdmin } = require('./middleware/AdminAuth')
+const { signIn } = require('./middleware/Auth')
+const { signInAdmin, welcomeAdmin, logout } = require('./middleware/AdminAuth')
 
 //importing router
 const dairyRoute = require('./routes/DairyRoute')
@@ -21,7 +19,7 @@ const milkCollectionRoute = require('./routes/MilkCollectionRoute')
 const localSaleRoute = require('./routes/LocalSaleRoute')
 
 //using middleware
-app.use(bodyParser.json())
+
 app.use(cors());
 app.use(session({
     secret: "Shh, its a secret!",
@@ -33,6 +31,23 @@ app.set('views', path.join(__dirname + '/views'));
 app.set('view engine', 'pug');
 
 app.use(express.static('./public'));
+app.use(bodyParser.json())
+app.use(express.urlencoded({ extended: true }))
+
+
+//Admin Panel
+app.get('/admin', (req, res) => {
+    res.render('login');
+})
+
+app.get('/', welcomeAdmin, (req, res) => {
+    res.render('index')
+})
+
+app.use('/admin/login', signInAdmin)
+
+//logout
+app.get('/logout', logout);
 
 //some constant declaration
 const PORT = process.env.PORT || 8000;
@@ -46,18 +61,18 @@ const LocalSale = require('./models/LocalSale')
 const Admin = require('./models/Admin')
 
 // model synchronization
-// sequelize.sync({ force: true })
-//     .then(() => {
-//         console.log("Model updated")
-//         //server running
-//         app.listen(PORT, (err) => {
-//             if (err) throw err;
-//             console.log(`Server running on http://${HOSTNAME}:${PORT}`)
-//         })
-//     })
-//     .catch(error => {
-//         console.log(error);
-//     });
+sequelize.sync({ force: true })
+    .then(() => {
+        console.log("Model updated")
+        //server running
+        app.listen(PORT, (err) => {
+            if (err) throw err;
+            console.log(`Server running on http://${HOSTNAME}:${PORT}`)
+        })
+    })
+    .catch(error => {
+        console.log(error);
+    });
 
 //Signin 
 app.use('/signin', signIn)
@@ -75,14 +90,8 @@ app.use('/milk-collection', milkCollectionRoute)
 app.use('/local-sale', localSaleRoute)
 
 
-//Admin Panel
-app.get('/admin', (req, res) => {
-    res.render('login');
-})
 
-
-app.use('/admin/login', signInAdmin)
-app.listen(PORT, (err) => {
-    if (err) throw err;
-    console.log(`Server running on http://${HOSTNAME}:${PORT}`)
-})
+// app.listen(PORT, (err) => {
+//     if (err) throw err;
+//     console.log(`Server running on http://${HOSTNAME}:${PORT}`)
+// })

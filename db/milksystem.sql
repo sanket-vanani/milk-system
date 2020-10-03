@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 03, 2020 at 09:55 AM
+-- Generation Time: Oct 03, 2020 at 11:57 AM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.2
 
@@ -36,6 +36,13 @@ CREATE TABLE `Admin` (
   `updatedAt` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `Admin`
+--
+
+INSERT INTO `Admin` (`id`, `userName`, `password`, `createdAt`, `updatedAt`) VALUES
+(1, 'admin', 'admin@123', NULL, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -44,6 +51,7 @@ CREATE TABLE `Admin` (
 
 CREATE TABLE `Customer` (
   `id` int(11) NOT NULL,
+  `dairyId` int(11) NOT NULL,
   `customerName` varchar(255) NOT NULL,
   `phoneNumber` int(11) NOT NULL,
   `fatherName` varchar(255) DEFAULT NULL,
@@ -157,7 +165,7 @@ ALTER TABLE `MilkCollection`
 -- AUTO_INCREMENT for table `Admin`
 --
 ALTER TABLE `Admin`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `Customer`

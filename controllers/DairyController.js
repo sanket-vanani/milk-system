@@ -43,6 +43,32 @@ exports.addDairy = (req, res) => {
         })
 }
 
+//THis is for admin panel
+exports.getDairy = (req, res) => {
+
+    Dairy.findAll({})
+        .then(Dairy => {
+
+            var op = {
+                flag: 0,
+                success: "true",
+                status: 200,
+                data: Dairy,
+                message: "Redirected"
+            }
+            res.render('dairylist', { op });
+        })
+        .catch((error) => {
+            var err = {
+                status: false,
+                message: error.message
+            }
+            console.log(error)
+            return res.status(500).json(err)
+        })
+}
+
+
 exports.getDairyById = (req, res) => {
     const id = req.params.id
 
