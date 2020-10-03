@@ -15,7 +15,8 @@ const Customer = sequelize.define('Customer',
         },
         phoneNumber: {
             type: Sequelize.INTEGER,
-            allowNull: false
+            allowNull: false,
+            unique:true
         },
         fatherName: {
             type: Sequelize.STRING

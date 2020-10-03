@@ -19,8 +19,8 @@ exports.addDairy = (req, res) => {
                 expiresIn: jwtExpirySeconds,
             })
             Dairy.findAll({
-                where:{
-                    id:dairyid
+                where: {
+                    id: dairyid
                 }
             }).then(dairy => {
                 let data = {
@@ -33,10 +33,11 @@ exports.addDairy = (req, res) => {
             })
         })
         .catch((error) => {
-            console.log(error)
+            console.log("uniqyue error", error.errors[0].message)
             let err = {
                 status: false,
-                message: error.message
+                message: error.message,
+                sqlMessage: error.errors[0].message
             }
             return res.status(500).json(err)
         })

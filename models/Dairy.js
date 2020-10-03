@@ -40,7 +40,7 @@ const Dairy = sequelize.define('Dairy',
         phoneNumber: {
             type: Sequelize.STRING,
             allowNull: false,
-            unique:true
+            unique: true
         },
         createdAt: Sequelize.DATE,
         updatedAt: Sequelize.DATE

@@ -36,14 +36,15 @@ exports.addCustomer = (req, res) => {
             let data = {
                 status: true,
                 message: "Customer Inserted",
-                result: Customer
+                // result: Customer
             }
             return res.status(200).json(data);
         })
         .catch(error => {
             let err = {
                 status: false,
-                message: error.message
+                message: error.message,
+                sqlMessage: error.errors[0].message
             }
             return res.status(500).json(err)
         })
