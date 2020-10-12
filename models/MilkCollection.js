@@ -1,5 +1,7 @@
 const sequelize = require('../config')
 const { Sequelize } = require('sequelize')
+const Customer = require('./Customer')
+const Dairy = require('./Dairy')
 
 const MilkCollection = sequelize.define('MilkCollection',
     {
@@ -8,10 +10,6 @@ const MilkCollection = sequelize.define('MilkCollection',
             allowNull: false,
             autoIncrement: true,
             primaryKey: true
-        },
-        memberID: {
-            type: Sequelize.INTEGER,
-            allowNull: false,
         },
         liter: {
             type: Sequelize.STRING,
@@ -50,5 +48,12 @@ const MilkCollection = sequelize.define('MilkCollection',
     }, {
     freezeTableName: true
 })
+
+
+Customer.hasMany(MilkCollection)
+MilkCollection.belongsTo(Customer)
+
+Dairy.hasMany(MilkCollection)
+MilkCollection.belongsTo(Dairy)
 
 module.exports = MilkCollection

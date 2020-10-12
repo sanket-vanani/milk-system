@@ -17,6 +17,7 @@ const dairyRoute = require('./routes/DairyRoute')
 const customerRoute = require('./routes/CustomerRoute')
 const milkCollectionRoute = require('./routes/MilkCollectionRoute')
 const localSaleRoute = require('./routes/LocalSaleRoute')
+const paymentRoute = require('./routes/PaymentRoute')
 
 //using middleware
 
@@ -59,6 +60,7 @@ const Customer = require('./models/Customer')
 const MilkCollection = require('./models/MilkCollection')
 const LocalSale = require('./models/LocalSale')
 const Admin = require('./models/Admin')
+const Payment = require('./models/Payment')
 
 // model synchronization
 // sequelize.sync({ force: true })
@@ -89,7 +91,8 @@ app.use('/milk-collection', milkCollectionRoute)
 //Local Sale Operation
 app.use('/local-sale', localSaleRoute)
 
-
+//payment
+app.use('/payment', paymentRoute)
 
 app.listen(PORT, (err) => {
     if (err) throw err;

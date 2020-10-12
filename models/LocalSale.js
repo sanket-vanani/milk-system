@@ -1,5 +1,7 @@
 const { Sequelize } = require('sequelize')
 const sequelize = require('../config')
+const Dairy = require('./Dairy')
+const Customer = require('./Customer')
 
 const LocalSale = sequelize.define('LocalSale',
     {
@@ -34,5 +36,12 @@ const LocalSale = sequelize.define('LocalSale',
     }, {
     freezeTableName: true
 })
+
+
+Dairy.hasMany(LocalSale)
+LocalSale.belongsTo(Dairy)
+
+Customer.hasMany(LocalSale)
+LocalSale.belongsTo(Customer)
 
 module.exports = LocalSale

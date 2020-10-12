@@ -12,25 +12,27 @@ exports.addDairy = (req, res) => {
     data.password = md5(data.password)
     Dairy.create(data)
         .then((response) => {
-            console.log("Auto id ", response.id)
-            const dairyid = response.id
+            // console.log("Auto id ", response.id)
+            // const dairyid = response.id
             const token = jwt.sign({ userName }, jwtKey, {
                 algorithm: "HS256",
                 expiresIn: jwtExpirySeconds,
             })
-            Dairy.findAll({
-                where: {
-                    id: dairyid
-                }
-            }).then(dairy => {
-                let data = {
-                    status: true,
-                    _token: token,
-                    message: "Dairy Added",
-                    result: dairy
-                }
-                return res.status(200).json(data);
-            })
+            // Dairy.findAll({
+            //     where: {
+            //         id: dairyid
+            //     }
+            // }).then(dairy => {
+            const dairy = []
+            dairy.push(response)
+            let data = {
+                status: true,
+                _token: token,
+                message: "Dairy Added",
+                result: dairy
+            }
+            return res.status(200).json(data);
+            // })
         })
         .catch((error) => {
             console.log("uniqyue error", error.errors[0].message)
@@ -113,12 +115,31 @@ exports.updateDairy = (req, res) => {
             id: id
         }
     })
-        .then(Dairy => {
-            var data = {
-                status: true,
-                message: Dairy + " Dairy Updated"
-            }
-            return res.status(200).json(data);
+        .then(dairy => {
+            Dairy.findAll({
+                where: {
+                    id: id
+                },
+                attributes: {
+                    exclude: ['createdAt', 'updatedAt']
+                }
+            })
+                .then(dairy => {
+                    var data = {
+                        status: true,
+                        message: " Dairy Updated",
+                        result: dairy
+                    }
+                    return res.status(200).json(data);
+                })
+                .catch(error => {
+                    var err = {
+                        status: false,
+                        message: error.message
+                    }
+                    return res.status(500).json(err);
+                })
+
         })
         .catch(error => {
             var err = {

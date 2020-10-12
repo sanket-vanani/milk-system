@@ -1,41 +1,40 @@
-const MilkCollection = require('../models/MilkCollection')
+const Payment = require('../models/Payment')
 const Customer = require('../models/Customer')
-const { Sequelize } = require('sequelize');
-exports.getMilkCollection = (req, res) => {
-    MilkCollection.findAll({
+
+exports.getPayment = (req, res) => {
+    Payment.findAll({
         where: {
             DairyId: req.query.dairyid
         },
-        include: {
-            model: Customer
+        attributes: {
+            exclude: ['createdAt', 'updatedAt']
         },
         include: {
             model: Customer,
             attributes: ['customerName']
         }
     })
-        .then(MilkCollection => {
-            console.log("Customer Name", MilkCollection[0].Customer.customerName)
-            if (MilkCollection.length > 0) {
+        .then(Payment => {
+            if (Payment.length > 0) {
                 var data = {
                     status: true,
-                    message: "Milk Collection Founded",
-                    result: MilkCollection
+                    message: "Payment Founded",
+                    result: Payment
                 }
                 return res.status(200).json(data)
             }
             else {
                 var data = {
                     status: true,
-                    message: "Milk Collection Not Founded",
-                    result: MilkCollection
+                    message: "Payment Not Founded",
+                    result: Payment
                 }
                 return res.status(200).json(data)
             }
 
         })
         .catch(error => {
-            console.log(error.message)
+            console.log(error)
             var err = {
                 status: false,
                 message: error.message
@@ -44,17 +43,17 @@ exports.getMilkCollection = (req, res) => {
         })
 }
 
-exports.addMilkCollection = (req, res) => {
+exports.addPayment = (req, res) => {
     var data = req.body
-    MilkCollection.create(data)
-        .then((MilkCollection) => {
-            console.log("Auto id ", MilkCollection.id)
-            let obj = []
-            obj.push(MilkCollection)
+    Payment.create(data)
+        .then((Payment) => {
+            console.log("Auto id ", Payment.id)
+
+            console.log("Amount", Payment.amount)
             let data = {
                 status: true,
-                message: "MilkCollection Added",
-                result: obj
+                message: "Payment Added",
+                result: Payment
             }
             return res.status(200).json(data)
         })
@@ -68,27 +67,30 @@ exports.addMilkCollection = (req, res) => {
         })
 }
 
-exports.getMilkCollectionById = (req, res) => {
+exports.getPaymentById = (req, res) => {
     const id = req.params.id
-    MilkCollection.findAll({
+    Payment.findAll({
         where: {
             id: id
+        },
+        attributes: {
+            exclude: ['createdAt', 'updatedAt']
         }
     })
-        .then(MilkCollection => {
-            if (MilkCollection.length > 0) {
+        .then(Payment => {
+            if (Payment.length > 0) {
                 var data = {
                     status: true,
-                    message: "Milk Collection Founded",
-                    result: MilkCollection
+                    message: "Payment Founded",
+                    result: Payment
                 }
                 return res.status(200).json(data)
             }
             else {
                 var data = {
                     status: true,
-                    message: "Milk Collection Not Founded",
-                    result: MilkCollection
+                    message: "Payment Not Founded",
+                    result: Payment
                 }
                 return res.status(200).json(data)
             }
@@ -104,20 +106,31 @@ exports.getMilkCollectionById = (req, res) => {
         })
 }
 
-exports.editMilkCollection = (req, res) => {
+exports.editPayment = (req, res) => {
     const id = req.params.id
     var obj = req.body
-    MilkCollection.update(obj, {
+    Payment.update(obj, {
         where: {
             id: id
         }
     })
-        .then(MilkCollection => {
-            var data = {
-                status: true,
-                message: MilkCollection + " MilkCollection Updated"
-            }
-            return res.status(200).json(data);
+        .then(payment => {
+            Payment.findAll({
+                where: {
+                    id: id
+                },
+                attributes: {
+                    exclude: ['createdAt', 'updatedAt']
+                }
+            })
+                .then(payment => {
+                    var data = {
+                        status: true,
+                        message: "Payment Updated",
+                        result: payment
+                    }
+                    return res.status(200).json(data);
+                })
         })
         .catch(error => {
             var err = {
@@ -128,18 +141,18 @@ exports.editMilkCollection = (req, res) => {
         })
 }
 
-exports.removeMilkCollection = (req, res) => {
+exports.removePayment = (req, res) => {
     const id = req.params.id
-    MilkCollection.destroy({
+    Payment.destroy({
         where: {
             id: id
         }
     })
-        .then(MilkCollection => {
-            if (MilkCollection != undefined) {
+        .then(Payment => {
+            if (Payment != undefined) {
                 var data = {
                     status: true,
-                    message: MilkCollection + " MilkCollection Deleted"
+                    message: Payment + " Payment Deleted"
                 }
                 return res.status(200).json(data)
             }

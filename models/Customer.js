@@ -1,5 +1,6 @@
 const sequelize = require('../config')
 const { Sequelize } = require('sequelize')
+const Dairy = require('./Dairy')
 
 const Customer = sequelize.define('Customer',
     {
@@ -9,10 +10,6 @@ const Customer = sequelize.define('Customer',
             primaryKey: true,
             allowNull: false
         },
-        dairyId:{
-            type: Sequelize.INTEGER,
-            allowNull: false
-        },
         customerName: {
             type: Sequelize.STRING,
             allowNull: false
@@ -20,7 +17,7 @@ const Customer = sequelize.define('Customer',
         phoneNumber: {
             type: Sequelize.INTEGER,
             allowNull: false,
-            unique:true
+            unique: true
         },
         fatherName: {
             type: Sequelize.STRING
@@ -46,4 +43,8 @@ const Customer = sequelize.define('Customer',
     //Enforcing to set table name same as model name
     freezeTableName: true
 })
+
+Dairy.hasMany(Customer)
+Customer.belongsTo(Dairy)
+
 module.exports = Customer

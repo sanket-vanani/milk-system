@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 12, 2020 at 12:45 PM
+-- Generation Time: Oct 03, 2020 at 11:57 AM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.2
 
@@ -51,6 +51,7 @@ INSERT INTO `Admin` (`id`, `userName`, `password`, `createdAt`, `updatedAt`) VAL
 
 CREATE TABLE `Customer` (
   `id` int(11) NOT NULL,
+  `dairyId` int(11) NOT NULL,
   `customerName` varchar(255) NOT NULL,
   `phoneNumber` int(11) NOT NULL,
   `fatherName` varchar(255) DEFAULT NULL,
@@ -60,8 +61,7 @@ CREATE TABLE `Customer` (
   `villageName` varchar(255) DEFAULT NULL,
   `address` text,
   `createdAt` datetime DEFAULT NULL,
-  `updatedAt` datetime DEFAULT NULL,
-  `DairyId` int(11) DEFAULT NULL
+  `updatedAt` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -96,9 +96,7 @@ CREATE TABLE `LocalSale` (
   `rate` varchar(255) NOT NULL,
   `totalAmount` varchar(255) NOT NULL,
   `createdAt` datetime DEFAULT NULL,
-  `updatedAt` datetime DEFAULT NULL,
-  `DairyId` int(11) DEFAULT NULL,
-  `CustomerId` int(11) DEFAULT NULL
+  `updatedAt` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -109,6 +107,7 @@ CREATE TABLE `LocalSale` (
 
 CREATE TABLE `MilkCollection` (
   `id` int(11) NOT NULL,
+  `memberID` int(11) NOT NULL,
   `liter` varchar(255) NOT NULL,
   `fat` varchar(255) NOT NULL,
   `snf` varchar(255) NOT NULL,
@@ -118,25 +117,7 @@ CREATE TABLE `MilkCollection` (
   `timeslot` varchar(255) NOT NULL,
   `animalType` varchar(255) NOT NULL,
   `createdAt` datetime DEFAULT NULL,
-  `updatedAt` datetime DEFAULT NULL,
-  `CustomerId` int(11) DEFAULT NULL,
-  `DairyId` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `Payment`
---
-
-CREATE TABLE `Payment` (
-  `id` int(11) NOT NULL,
-  `amount` varchar(255) NOT NULL,
-  `paymentDate` varchar(255) NOT NULL,
-  `createdAt` datetime DEFAULT NULL,
-  `updatedAt` datetime DEFAULT NULL,
-  `CustomerId` int(11) DEFAULT NULL,
-  `DairyId` int(11) DEFAULT NULL
+  `updatedAt` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -154,8 +135,7 @@ ALTER TABLE `Admin`
 --
 ALTER TABLE `Customer`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `phoneNumber` (`phoneNumber`),
-  ADD KEY `DairyId` (`DairyId`);
+  ADD UNIQUE KEY `phoneNumber` (`phoneNumber`);
 
 --
 -- Indexes for table `Dairy`
@@ -169,25 +149,13 @@ ALTER TABLE `Dairy`
 -- Indexes for table `LocalSale`
 --
 ALTER TABLE `LocalSale`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `DairyId` (`DairyId`),
-  ADD KEY `CustomerId` (`CustomerId`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `MilkCollection`
 --
 ALTER TABLE `MilkCollection`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `CustomerId` (`CustomerId`),
-  ADD KEY `DairyId` (`DairyId`);
-
---
--- Indexes for table `Payment`
---
-ALTER TABLE `Payment`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `CustomerId` (`CustomerId`),
-  ADD KEY `DairyId` (`DairyId`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -222,43 +190,6 @@ ALTER TABLE `LocalSale`
 --
 ALTER TABLE `MilkCollection`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `Payment`
---
-ALTER TABLE `Payment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `Customer`
---
-ALTER TABLE `Customer`
-  ADD CONSTRAINT `customer_ibfk_1` FOREIGN KEY (`DairyId`) REFERENCES `Dairy` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
-
---
--- Constraints for table `LocalSale`
---
-ALTER TABLE `LocalSale`
-  ADD CONSTRAINT `localsale_ibfk_1` FOREIGN KEY (`DairyId`) REFERENCES `Dairy` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `localsale_ibfk_2` FOREIGN KEY (`CustomerId`) REFERENCES `Customer` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
-
---
--- Constraints for table `MilkCollection`
---
-ALTER TABLE `MilkCollection`
-  ADD CONSTRAINT `milkcollection_ibfk_1` FOREIGN KEY (`CustomerId`) REFERENCES `Customer` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `milkcollection_ibfk_2` FOREIGN KEY (`DairyId`) REFERENCES `Dairy` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
-
---
--- Constraints for table `Payment`
---
-ALTER TABLE `Payment`
-  ADD CONSTRAINT `payment_ibfk_1` FOREIGN KEY (`CustomerId`) REFERENCES `Customer` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `payment_ibfk_2` FOREIGN KEY (`DairyId`) REFERENCES `Dairy` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

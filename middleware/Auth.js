@@ -13,6 +13,9 @@ const signIn = (req, res) => {
         where: {
             userName: userName,
             password: md5(password)
+        },
+        attributes: {
+            exclude: ['createdAt', 'updatedAt']
         }
     })
         .then(Dairy => {

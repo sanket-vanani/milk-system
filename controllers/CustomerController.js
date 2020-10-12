@@ -1,7 +1,14 @@
 const Customer = require('../models/Customer')
 
 exports.getCustomer = (req, res) => {
-    Customer.findAll()
+    Customer.findAll({
+        where: {
+            DairyId: req.query.dairyid
+        },
+        attributes: {
+            exclude: ['createdAt', 'updatedAt']
+        }
+    })
         .then(Customer => {
             if (Customer.length > 0) {
                 var data = {
@@ -33,10 +40,12 @@ exports.addCustomer = (req, res) => {
     const data = req.body
     Customer.create(data)
         .then(Customer => {
+            let cust = []
+            cust.push(Customer)
             let data = {
                 status: true,
                 message: "Customer Inserted",
-                // result: Customer
+                result: cust
             }
             return res.status(200).json(data);
         })
@@ -44,7 +53,7 @@ exports.addCustomer = (req, res) => {
             let err = {
                 status: false,
                 message: error.message,
-                sqlMessage: error.errors[0].message
+                // sqlMessage: error.errors[0].message
             }
             return res.status(500).json(err)
         })
@@ -55,6 +64,9 @@ exports.getCustomerById = (req, res) => {
     Customer.findAll({
         where: {
             id: id
+        },
+        attributes: {
+            exclude: ['createdAt', 'updatedAt']
         }
     })
         .then(Customer => {
@@ -92,13 +104,32 @@ exports.updateCustomer = (req, res) => {
             id: id
         }
     })
-        .then(Customer => {
-            if (Customer != undefined) {
-                var data = {
-                    status: true,
-                    message: Customer + " Customer Updated"
-                }
-                return res.status(200).json(data)
+        .then(customer => {
+            if (customer != undefined) {
+                Customer.findAll({
+                    where: {
+                        id: id
+                    },
+                    attributes: {
+                        exclude: ['createdAt', 'updatedAt']
+                    }
+                })
+                    .then(cust => {
+                        var data = {
+                            status: true,
+                            message: customer + " Customer Updated",
+                            result: cust
+                        }
+                        return res.status(200).json(data)
+                    })
+                    .catch(error => {
+                        var err = {
+                            status: false,
+                            message: error.message
+                        }
+                        return res.status(500).json(err)
+                    })
+
             }
         })
         .catch(error => {

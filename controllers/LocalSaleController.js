@@ -1,7 +1,19 @@
 const LocalSale = require('../models/LocalSale')
+const Customer = require('../models/Customer')
 
 exports.getLocalSale = (req, res) => {
-    LocalSale.findAll()
+    LocalSale.findAll({
+        where: {
+            DairyId: req.query.dairyid
+        },
+        attributes: {
+            exclude: ['createdAt', 'updatedAt']
+        },
+        include: {
+            model: Customer,
+            attributes: ['customerName']
+        }
+    })
         .then(LocalSale => {
             if (LocalSale.length > 0) {
                 var data = {
@@ -30,12 +42,11 @@ exports.getLocalSale = (req, res) => {
             return res.status(500).json(err)
         })
 }
-
 exports.addLocalSale = (req, res) => {
     var data = req.body
     LocalSale.create(data)
         .then((LocalSale) => {
-            console.log("Auto id ", LocalSale.id)
+            // console.log("Auto id ", LocalSale.id)
             let data = {
                 status: true,
                 message: "Local Sale Added",
@@ -44,7 +55,7 @@ exports.addLocalSale = (req, res) => {
             return res.status(200).json(data)
         })
         .catch((error) => {
-            console.log(error)
+            console.log(error.message)
             let err = {
                 status: false,
                 message: error.message
@@ -52,12 +63,18 @@ exports.addLocalSale = (req, res) => {
             return res.status(500).json(err)
         })
 }
-
 exports.getLocalSaleById = (req, res) => {
     const id = req.params.id
     LocalSale.findAll({
         where: {
             id: id
+        },
+        attributes: {
+            exclude: ['createdAt', 'updatedAt']
+        },
+        include: {
+            model: Customer,
+            attributes: ['customerName']
         }
     })
         .then(LocalSale => {
@@ -97,12 +114,35 @@ exports.editLocalSale = (req, res) => {
             id: id
         }
     })
-        .then(LocalSale => {
-            var data = {
-                status: true,
-                message: LocalSale + " LocalSale Updated"
-            }
-            return res.status(200).json(data);
+        .then(localSale => {
+            LocalSale.findAll({
+                where: {
+                    id: id
+                },
+                attributes: {
+                    exclude: ['createdAt', 'updatedAt']
+                },
+                include: {
+                    model: Customer,
+                    attributes: ['customerName']
+                }
+            })
+                .then(localSale => {
+                    var data = {
+                        status: true,
+                        message: " LocalSale Updated",
+                        result: localSale
+                    }
+                    return res.status(200).json(data);
+                })
+                .catch(error => {
+                    console.log(error.message)
+                    var err = {
+                        status: false,
+                        message: error.message
+                    }
+                    return res.status(500).json(err);
+                })
         })
         .catch(error => {
             var err = {
