@@ -15,7 +15,7 @@ exports.getMilkCollection = (req, res) => {
         }
     })
         .then(MilkCollection => {
-            console.log("Customer Name", MilkCollection[0].Customer.customerName)
+            // console.log("Customer Name", MilkCollection[0].Customer.customerName)
             if (MilkCollection.length > 0) {
                 var data = {
                     status: true,
