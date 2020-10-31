@@ -44,10 +44,13 @@ exports.getLocalSale = (req, res) => {
 }
 exports.addLocalSale = (req, res) => {
     var data = req.body
+    var cname = req.body.customerName
     LocalSale.create(data)
         .then((LocalSale) => {
             // console.log("Auto id ", LocalSale.id)
-            let data = {
+            LocalSale.dataValues.Customer = { customerName: cname }
+            // console.log(LocalSale)
+            const data = {
                 status: true,
                 message: "Local Sale Added",
                 result: LocalSale

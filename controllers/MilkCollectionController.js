@@ -46,11 +46,14 @@ exports.getMilkCollection = (req, res) => {
 
 exports.addMilkCollection = (req, res) => {
     var data = req.body
+    var cname = data.customerName
     MilkCollection.create(data)
         .then((MilkCollection) => {
             console.log("Auto id ", MilkCollection.id)
+            MilkCollection.dataValues.Customer = { "customerName": cname }
             let obj = []
             obj.push(MilkCollection)
+            
             let data = {
                 status: true,
                 message: "MilkCollection Added",
