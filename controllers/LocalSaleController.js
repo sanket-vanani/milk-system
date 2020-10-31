@@ -46,16 +46,35 @@ exports.addLocalSale = (req, res) => {
     var data = req.body
     var cname = req.body.customerName
     LocalSale.create(data)
-        .then((LocalSale) => {
-            // console.log("Auto id ", LocalSale.id)
-            LocalSale.dataValues.Customer = { customerName: cname }
-            // console.log(LocalSale)
-            const data = {
-                status: true,
-                message: "Local Sale Added",
-                result: LocalSale
-            }
-            return res.status(200).json(data)
+        .then((result) => {
+            LocalSale.findAll({
+                where: {
+                    id: result.id
+                },
+                attributes: {
+                    exclude: ['createdAt', 'updatedAt']
+                },
+                include: {
+                    model: Customer,
+                    attributes: ['customerName']
+                }
+            })
+            .then(ls => {
+                const data = {
+                    status: true,
+                    message: "Local Sale Added",
+                    result: ls
+                }
+                return res.status(200).json(data)
+            })
+            .catch((error) => {
+                console.log(error.message)
+                let err = {
+                    status: false,
+                    message: error.message
+                }
+                return res.status(500).json(err)
+            })
         })
         .catch((error) => {
             console.log(error.message)

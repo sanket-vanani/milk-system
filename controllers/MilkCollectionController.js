@@ -15,7 +15,6 @@ exports.getMilkCollection = (req, res) => {
         }
     })
         .then(MilkCollection => {
-            // console.log("Customer Name", MilkCollection[0].Customer.customerName)
             if (MilkCollection.length > 0) {
                 var data = {
                     status: true,
@@ -48,21 +47,39 @@ exports.addMilkCollection = (req, res) => {
     var data = req.body
     var cname = data.customerName
     MilkCollection.create(data)
-        .then((MilkCollection) => {
-            console.log("Auto id ", MilkCollection.id)
-            MilkCollection.dataValues.Customer = { "customerName": cname }
-            let obj = []
-            obj.push(MilkCollection)
-            
-            let data = {
-                status: true,
-                message: "MilkCollection Added",
-                result: obj
-            }
-            return res.status(200).json(data)
+        .then((result) => {
+            console.log("Auto id ", result.id)
+            MilkCollection.findAll({
+                where: {
+                    id: result.id
+                },
+                attributes: {
+                    exclude: ['createdAt', 'updatedAt']
+                },
+                include: {
+                    model: Customer,
+                    attributes: ['customerName']
+                }
+            })
+                .then(mk => {
+                    let data = {
+                        status: true,
+                        message: "MilkCollection Added",
+                        result: mk
+                    }
+                    return res.status(200).json(data)
+                })
+                .catch((error) => {
+                    console.log(error.message)
+                    let err = {
+                        status: false,
+                        message: error.message
+                    }
+                    return res.status(500).json(err)
+                })
         })
         .catch((error) => {
-            console.log(error)
+            console.log(error.message)
             let err = {
                 status: false,
                 message: error.message
@@ -76,6 +93,13 @@ exports.getMilkCollectionById = (req, res) => {
     MilkCollection.findAll({
         where: {
             id: id
+        },
+        attributes: {
+            exclude: ['createdAt', 'updatedAt']
+        },
+        include: {
+            model: Customer,
+            attributes: ['customerName']
         }
     })
         .then(MilkCollection => {
@@ -115,12 +139,35 @@ exports.editMilkCollection = (req, res) => {
             id: id
         }
     })
-        .then(MilkCollection => {
-            var data = {
-                status: true,
-                message: MilkCollection + " MilkCollection Updated"
-            }
-            return res.status(200).json(data);
+        .then(result => {
+
+            MilkCollection.findAll({
+                where: {
+                    id: id
+                },
+                attributes: {
+                    exclude: ['createdAt', 'updatedAt']
+                },
+                include: {
+                    model: Customer,
+                    attributes: ['customerName']
+                }
+            })
+                .then(mk => {
+                    var data = {
+                        status: true,
+                        message: result + " MilkCollection Updated",
+                        result: mk
+                    }
+                    return res.status(200).json(data);
+                })
+                .catch(error => {
+                    var err = {
+                        status: false,
+                        message: error.message
+                    }
+                    return res.status(500).json(err);
+                })
         })
         .catch(error => {
             var err = {
@@ -129,8 +176,8 @@ exports.editMilkCollection = (req, res) => {
             }
             return res.status(500).json(err);
         })
-}
 
+}
 exports.removeMilkCollection = (req, res) => {
     const id = req.params.id
     MilkCollection.destroy({
