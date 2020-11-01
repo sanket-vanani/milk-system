@@ -7,7 +7,7 @@ exports.getLocalSale = (req, res) => {
             DairyId: req.query.dairyid
         },
         attributes: {
-            exclude: ['createdAt', 'updatedAt']
+            exclude: ['updatedAt']
         },
         include: {
             model: Customer,
@@ -52,7 +52,7 @@ exports.addLocalSale = (req, res) => {
                     id: result.id
                 },
                 attributes: {
-                    exclude: ['createdAt', 'updatedAt']
+                    exclude: ['updatedAt']
                 },
                 include: {
                     model: Customer,
@@ -92,7 +92,7 @@ exports.getLocalSaleById = (req, res) => {
             id: id
         },
         attributes: {
-            exclude: ['createdAt', 'updatedAt']
+            exclude: ['updatedAt']
         },
         include: {
             model: Customer,
@@ -142,7 +142,7 @@ exports.editLocalSale = (req, res) => {
                     id: id
                 },
                 attributes: {
-                    exclude: ['createdAt', 'updatedAt']
+                    exclude: ['updatedAt']
                 },
                 include: {
                     model: Customer,

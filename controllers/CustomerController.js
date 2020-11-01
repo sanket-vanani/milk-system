@@ -6,7 +6,7 @@ exports.getCustomer = (req, res) => {
             DairyId: req.query.dairyid
         },
         attributes: {
-            exclude: ['createdAt', 'updatedAt']
+            exclude: ['updatedAt']
         }
     })
         .then(Customer => {
@@ -66,7 +66,7 @@ exports.getCustomerById = (req, res) => {
             id: id
         },
         attributes: {
-            exclude: ['createdAt', 'updatedAt']
+            exclude: ['updatedAt']
         }
     })
         .then(Customer => {
@@ -111,7 +111,7 @@ exports.updateCustomer = (req, res) => {
                         id: id
                     },
                     attributes: {
-                        exclude: ['createdAt', 'updatedAt']
+                        exclude: ['updatedAt']
                     }
                 })
                     .then(cust => {

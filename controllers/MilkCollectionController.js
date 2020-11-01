@@ -45,7 +45,6 @@ exports.getMilkCollection = (req, res) => {
 
 exports.addMilkCollection = (req, res) => {
     var data = req.body
-    var cname = data.customerName
     MilkCollection.create(data)
         .then((result) => {
             console.log("Auto id ", result.id)
@@ -54,7 +53,7 @@ exports.addMilkCollection = (req, res) => {
                     id: result.id
                 },
                 attributes: {
-                    exclude: ['createdAt', 'updatedAt']
+                    exclude: ['updatedAt']
                 },
                 include: {
                     model: Customer,
@@ -95,7 +94,7 @@ exports.getMilkCollectionById = (req, res) => {
             id: id
         },
         attributes: {
-            exclude: ['createdAt', 'updatedAt']
+            exclude: ['updatedAt']
         },
         include: {
             model: Customer,
@@ -146,7 +145,7 @@ exports.editMilkCollection = (req, res) => {
                     id: id
                 },
                 attributes: {
-                    exclude: ['createdAt', 'updatedAt']
+                    exclude: ['updatedAt']
                 },
                 include: {
                     model: Customer,

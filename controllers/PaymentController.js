@@ -7,7 +7,7 @@ exports.getPayment = (req, res) => {
             DairyId: req.query.dairyid
         },
         attributes: {
-            exclude: ['createdAt', 'updatedAt']
+            exclude: ['updatedAt']
         },
         include: {
             model: Customer,
@@ -74,7 +74,7 @@ exports.getPaymentById = (req, res) => {
             id: id
         },
         attributes: {
-            exclude: ['createdAt', 'updatedAt']
+            exclude: ['updatedAt']
         }
     })
         .then(Payment => {
@@ -120,7 +120,7 @@ exports.editPayment = (req, res) => {
                     id: id
                 },
                 attributes: {
-                    exclude: ['createdAt', 'updatedAt']
+                    exclude: ['updatedAt']
                 }
             })
                 .then(payment => {
