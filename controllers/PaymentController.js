@@ -46,19 +46,39 @@ exports.getPayment = (req, res) => {
 exports.addPayment = (req, res) => {
     var data = req.body
     Payment.create(data)
-        .then((Payment) => {
-            console.log("Auto id ", Payment.id)
-
-            console.log("Amount", Payment.amount)
-            let data = {
-                status: true,
-                message: "Payment Added",
-                result: Payment
-            }
-            return res.status(200).json(data)
+        .then((payment) => {
+            console.log("Auto id ", payment.id)
+            Payment.findAll({
+                where: {
+                    id: payment.id
+                },
+                attributes: {
+                    exclude: ['updatedAt']
+                },
+                include: {
+                    model: Customer,
+                    attributes: ['customerName']
+                }
+            })
+                .then(pt => {
+                    let data = {
+                        status: true,
+                        message: "Payment Added",
+                        result: pt
+                    }
+                    return res.status(200).json(data)
+                })
+                .catch(error => {
+                    console.log(error.message)
+                    let err = {
+                        status: false,
+                        message: error.message
+                    }
+                    return res.status(500).json(err)
+                })
         })
         .catch((error) => {
-            console.log(error)
+            console.log(error.message)
             let err = {
                 status: false,
                 message: error.message
@@ -75,6 +95,10 @@ exports.getPaymentById = (req, res) => {
         },
         attributes: {
             exclude: ['updatedAt']
+        },
+        include: {
+            model: Customer,
+            attributes: ['customerName']
         }
     })
         .then(Payment => {
@@ -121,6 +145,10 @@ exports.editPayment = (req, res) => {
                 },
                 attributes: {
                     exclude: ['updatedAt']
+                },
+                include: {
+                    model: Customer,
+                    attributes: ['customerName']
                 }
             })
                 .then(payment => {
@@ -130,6 +158,13 @@ exports.editPayment = (req, res) => {
                         result: payment
                     }
                     return res.status(200).json(data);
+                })
+                .catch(error => {
+                    var err = {
+                        status: false,
+                        message: error.message
+                    }
+                    return res.status(500).json(err);
                 })
         })
         .catch(error => {
