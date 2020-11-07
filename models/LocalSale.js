@@ -15,6 +15,10 @@ const LocalSale = sequelize.define('LocalSale',
             type: Sequelize.STRING,
             allowNull: false
         },
+        timeslot:{
+            type: Sequelize.STRING,
+            allowNull: false
+        },
         animalType: {
             type: Sequelize.STRING,
             allowNull: false

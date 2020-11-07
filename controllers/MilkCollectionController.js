@@ -1,11 +1,30 @@
 const MilkCollection = require('../models/MilkCollection')
 const Customer = require('../models/Customer')
+const dateFormat = require('dateformat')
 const { Sequelize } = require('sequelize');
 exports.getMilkCollection = (req, res) => {
-    MilkCollection.findAll({
-        where: {
+
+    const { addDate, timeslot, animalType } = req.body
+    var search
+    if (addDate != "" && timeslot != "" && animalType != "") {
+        console.log("1")
+        search = {
+            DairyId: req.query.dairyid,
+            addDate: addDate,
+            timeslot: timeslot,
+            animalType: animalType
+        }
+    }
+    else {
+        console.log("2")
+        search = {
             DairyId: req.query.dairyid
-        },
+        }
+    }
+
+
+    MilkCollection.findAll({
+        where: search,
         include: {
             model: Customer
         },

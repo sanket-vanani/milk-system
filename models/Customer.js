@@ -37,6 +37,10 @@ const Customer = sequelize.define('Customer',
         address: {
             type: Sequelize.TEXT
         },
+        memberType: {
+            type: Sequelize.STRING,
+            allowNull: false
+        },
         createdAt: Sequelize.DATE,
         updatedAt: Sequelize.DATE
     }, {

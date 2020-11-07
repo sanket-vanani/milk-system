@@ -1,10 +1,28 @@
 const Customer = require('../models/Customer')
+const { Op } = require('sequelize')
 
 exports.getCustomer = (req, res) => {
-    Customer.findAll({
-        where: {
+
+    const { memberType, startMemberId, endMemberId } = req.body
+
+    var search
+    if (memberType != "" && startMemberId != "" && endMemberId != "") {
+        search = {
+            DairyId: req.query.dairyid,
+            memberType: memberType,
+            id: {
+                [Op.between]: [startMemberId, endMemberId]
+            }
+        }
+    }
+    else {
+        search = {
             DairyId: req.query.dairyid
-        },
+        }
+    }
+
+    Customer.findAll({
+        where: search,
         attributes: {
             exclude: ['updatedAt']
         }

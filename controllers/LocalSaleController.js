@@ -2,10 +2,36 @@ const LocalSale = require('../models/LocalSale')
 const Customer = require('../models/Customer')
 
 exports.getLocalSale = (req, res) => {
-    LocalSale.findAll({
-        where: {
+
+    const { startDate, endDate, timeslot, animalType } = req.body
+    var search
+    if (startDate != "" && endDate != "" && timeslot != "" && animalType != "") {
+        search = {
+            DairyId: req.query.dairyid,
+            saleDate: {
+                [Op.between]: [startDate, endDate]
+            },
+            timeslot: timeslot,
+            animalType: animalType
+        }
+    }
+    else if (startDate != "" && endDate != "" && timeslot == "" && animalType != "") {
+        search = {
+            DairyId: req.query.dairyid,
+            saleDate: {
+                [Op.between]: [startDate, endDate]
+            },
+            animalType: animalType
+        }
+    }
+    else {
+        search = {
             DairyId: req.query.dairyid
-        },
+        }
+    }
+
+    LocalSale.findAll({
+        where: search,
         attributes: {
             exclude: ['updatedAt']
         },
@@ -37,7 +63,7 @@ exports.getLocalSale = (req, res) => {
             console.log(error)
             var err = {
                 status: false,
-                message:error.message
+                message: error.message
             }
             return res.status(500).json(err)
         })
@@ -59,28 +85,28 @@ exports.addLocalSale = (req, res) => {
                     attributes: ['customerName']
                 }
             })
-            .then(ls => {
-                const data = {
-                    status: true,
-                    message: "Local Sale Added",
-                    result: ls
-                }
-                return res.status(200).json(data)
-            })
-            .catch((error) => {
-                console.log(error.message)
-                let err = {
-                    status: false,
-                    message:error.message
-                }
-                return res.status(500).json(err)
-            })
+                .then(ls => {
+                    const data = {
+                        status: true,
+                        message: "Local Sale Added",
+                        result: ls
+                    }
+                    return res.status(200).json(data)
+                })
+                .catch((error) => {
+                    console.log(error.message)
+                    let err = {
+                        status: false,
+                        message: error.message
+                    }
+                    return res.status(500).json(err)
+                })
         })
         .catch((error) => {
             console.log(error.message)
             let err = {
                 status: false,
-                message:error.message
+                message: error.message
             }
             return res.status(500).json(err)
         })
@@ -122,7 +148,7 @@ exports.getLocalSaleById = (req, res) => {
             console.log(error)
             var err = {
                 status: false,
-                message:error.message
+                message: error.message
             }
             return res.status(500).json(err)
         })
@@ -161,7 +187,7 @@ exports.editLocalSale = (req, res) => {
                     console.log(error.message)
                     var err = {
                         status: false,
-                        message:error.message
+                        message: error.message
                     }
                     return res.status(500).json(err);
                 })
@@ -169,7 +195,7 @@ exports.editLocalSale = (req, res) => {
         .catch(error => {
             var err = {
                 status: false,
-                message:error.message
+                message: error.message
             }
             return res.status(500).json(err);
         })
@@ -195,7 +221,7 @@ exports.removeLocalSale = (req, res) => {
             console.log(error)
             var err = {
                 status: false,
-                message:error.message
+                message: error.message
             }
             return res.status(500).json(err)
         })

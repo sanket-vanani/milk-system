@@ -1,11 +1,29 @@
 const Payment = require('../models/Payment')
 const Customer = require('../models/Customer')
 
+const { Op } = require('Sequelize')
+
 exports.getPayment = (req, res) => {
-    Payment.findAll({
-        where: {
+
+    const { startDate, endDate } = req.body
+
+    var search
+    if (startDate != "" && endDate != "") {
+        search = {
+            DairyId: req.query.dairyid,
+            paymentDate: {
+                [Op.between]: [startDate, endDate]
+            }
+        }
+    }
+    else {
+        search = {
             DairyId: req.query.dairyid
-        },
+        }
+    }
+
+    Payment.findAll({
+        where: search,
         attributes: {
             exclude: ['updatedAt']
         },
