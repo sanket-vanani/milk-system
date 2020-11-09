@@ -5,7 +5,7 @@ const { welcome } = require('../middleware/Auth')
 
 const paymentController = require('../controllers/PaymentController')
 
-router.get('/', welcome, paymentController.getPayment)
+router.post('/', welcome, paymentController.getPayment)
 
 router.get('/:id', welcome, paymentController.getPaymentById)
 

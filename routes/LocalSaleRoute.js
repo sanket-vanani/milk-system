@@ -5,7 +5,7 @@ const { welcome } = require('../middleware/Auth')
 
 const localSaleController = require('../controllers/LocalSaleController')
 
-router.get('/', welcome, localSaleController.getLocalSale)
+router.post('/', welcome, localSaleController.getLocalSale)
 
 router.get('/:id', welcome, localSaleController.getLocalSaleById)
 
