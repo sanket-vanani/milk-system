@@ -5,7 +5,7 @@ const { welcome } = require('../middleware/Auth')
 
 const milkCollectionController = require('../controllers/MilkCollectionController')
 
-router.post('/', welcome, milkCollectionController.getMilkCollection)
+router.post('/search', welcome, milkCollectionController.getMilkCollection)
 
 router.get('/:id', welcome, milkCollectionController.getMilkCollectionById)
 

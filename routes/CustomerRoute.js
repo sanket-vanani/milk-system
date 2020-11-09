@@ -4,7 +4,7 @@ const CustomerController = require('../controllers/CustomerController')
 const { welcome } = require('../middleware/Auth')
 
 //Get All customer
-router.post('/',welcome, CustomerController.getCustomer)
+router.post('/search',welcome, CustomerController.getCustomer)
 
 //Register Customer
 router.post('/', welcome, CustomerController.addCustomer)
