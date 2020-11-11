@@ -110,6 +110,7 @@ exports.getDairyById = (req, res) => {
 exports.updateDairy = (req, res) => {
     const id = req.params.id
     var obj = req.body
+    obj.password = md5(obj.password)
     Dairy.update(obj, {
         where: {
             id: id
