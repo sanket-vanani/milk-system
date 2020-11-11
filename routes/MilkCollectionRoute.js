@@ -7,6 +7,8 @@ const milkCollectionController = require('../controllers/MilkCollectionControlle
 
 router.post('/search', welcome, milkCollectionController.getMilkCollection)
 
+router.post('/ledger', welcome, milkCollectionController.getLedger)
+
 router.get('/:id', welcome, milkCollectionController.getMilkCollectionById)
 
 router.post('/', welcome, milkCollectionController.addMilkCollection)
