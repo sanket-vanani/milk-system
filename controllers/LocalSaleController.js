@@ -1,6 +1,8 @@
 const LocalSale = require('../models/LocalSale')
 const Customer = require('../models/Customer')
 
+const { Op } = require('sequelize')
+
 exports.getLocalSale = (req, res) => {
 
     const { startDate, endDate, timeslot, animalType } = req.body
