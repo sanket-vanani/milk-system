@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 09, 2020 at 05:38 AM
+-- Generation Time: Dec 12, 2020 at 02:39 PM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.2
 
@@ -45,6 +45,7 @@ CREATE TABLE `Admin` (
 CREATE TABLE `Customer` (
   `id` int(11) NOT NULL,
   `customerName` varchar(255) NOT NULL,
+  `memberCode` varchar(255) NOT NULL,
   `phoneNumber` varchar(255) NOT NULL,
   `fatherName` varchar(255) DEFAULT NULL,
   `accountNumber` varchar(255) DEFAULT NULL,
