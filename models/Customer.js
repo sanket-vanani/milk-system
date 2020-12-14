@@ -14,9 +14,10 @@ const Customer = sequelize.define('Customer',
             type: Sequelize.STRING,
             allowNull: false
         },
-        memberCode:{
+        memberCode: {
             type: Sequelize.STRING,
-            allowNull: false
+            allowNull: false,
+            unique: true
         },
         phoneNumber: {
             type: Sequelize.STRING,

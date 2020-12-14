@@ -28,7 +28,7 @@ exports.getMilkCollection = (req, res) => {
         },
         include: {
             model: Customer,
-            attributes: ['customerName']
+            attributes: ['customerName','memberCode']
         }
     })
         .then(MilkCollection => {
@@ -128,7 +128,7 @@ exports.getLedger = (req, res) => {
         },
         include: {
             model: Customer,
-            attributes: ['customerName']
+            attributes: ['customerName','memberCode']
         }
     })
         .then(MilkCollection => {
@@ -175,7 +175,7 @@ exports.addMilkCollection = (req, res) => {
                 },
                 include: {
                     model: Customer,
-                    attributes: ['customerName']
+                    attributes: ['customerName','memberCode']
                 }
             })
                 .then(mk => {
@@ -216,7 +216,7 @@ exports.getMilkCollectionById = (req, res) => {
         },
         include: {
             model: Customer,
-            attributes: ['customerName']
+            attributes: ['customerName','memberCode']
         }
     })
         .then(MilkCollection => {
@@ -267,7 +267,7 @@ exports.editMilkCollection = (req, res) => {
                 },
                 include: {
                     model: Customer,
-                    attributes: ['customerName']
+                    attributes: ['customerName','memberCode']
                 }
             })
                 .then(mk => {

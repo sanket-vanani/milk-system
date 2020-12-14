@@ -29,7 +29,7 @@ exports.getPayment = (req, res) => {
         },
         include: {
             model: Customer,
-            attributes: ['customerName']
+            attributes: ['customerName','memberCode']
         }
     })
         .then(Payment => {
@@ -75,7 +75,7 @@ exports.addPayment = (req, res) => {
                 },
                 include: {
                     model: Customer,
-                    attributes: ['customerName']
+                    attributes: ['customerName','memberCode']
                 }
             })
                 .then(pt => {
@@ -116,7 +116,7 @@ exports.getPaymentById = (req, res) => {
         },
         include: {
             model: Customer,
-            attributes: ['customerName']
+            attributes: ['customerName','memberCode']
         }
     })
         .then(Payment => {
@@ -166,7 +166,7 @@ exports.editPayment = (req, res) => {
                 },
                 include: {
                     model: Customer,
-                    attributes: ['customerName']
+                    attributes: ['customerName','memberCode']
                 }
             })
                 .then(payment => {

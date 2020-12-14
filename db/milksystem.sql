@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 12, 2020 at 02:39 PM
+-- Generation Time: Dec 14, 2020 at 03:16 PM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.2
 
@@ -150,6 +150,7 @@ ALTER TABLE `Admin`
 --
 ALTER TABLE `Customer`
   ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `memberCode` (`memberCode`),
   ADD UNIQUE KEY `phoneNumber` (`phoneNumber`),
   ADD KEY `DairyId` (`DairyId`);
 

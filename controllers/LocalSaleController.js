@@ -39,7 +39,7 @@ exports.getLocalSale = (req, res) => {
         },
         include: {
             model: Customer,
-            attributes: ['customerName']
+            attributes: ['customerName','memberCode']
         }
     })
         .then(LocalSale => {
@@ -84,7 +84,7 @@ exports.addLocalSale = (req, res) => {
                 },
                 include: {
                     model: Customer,
-                    attributes: ['customerName']
+                    attributes: ['customerName','memberCode']
                 }
             })
                 .then(ls => {
@@ -124,7 +124,7 @@ exports.getLocalSaleById = (req, res) => {
         },
         include: {
             model: Customer,
-            attributes: ['customerName']
+            attributes: ['customerName','memberCode']
         }
     })
         .then(LocalSale => {
@@ -174,7 +174,7 @@ exports.editLocalSale = (req, res) => {
                 },
                 include: {
                     model: Customer,
-                    attributes: ['customerName']
+                    attributes: ['customerName','memberCode']
                 }
             })
                 .then(localSale => {
