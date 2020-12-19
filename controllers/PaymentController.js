@@ -1,7 +1,7 @@
 const Payment = require('../models/Payment')
 const Customer = require('../models/Customer')
 
-const { Op } = require('Sequelize')
+const { Op } = require('sequelize')
 
 exports.getPayment = (req, res) => {
 
