@@ -15,4 +15,7 @@ router.get('/:id', welcome, DairyController.getDairyById)
 //Update dairy
 router.put('/:id', welcome, DairyController.updateDairy)
 
+//delete dairy
+router.delete('/:id', welcome, DairyController.removeDairy)
+
 module.exports = router

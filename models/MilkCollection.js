@@ -43,6 +43,22 @@ const MilkCollection = sequelize.define('MilkCollection',
             type: Sequelize.STRING,
             allowNull: false,
         },
+        liter_pd: {
+            type: Sequelize.STRING,
+            allowNull: false,
+        },
+        fat_pd: {
+            type: Sequelize.STRING,
+            allowNull: false,
+        },
+        gov_pd: {
+            type: Sequelize.STRING,
+            allowNull: false,
+        },
+        total_rate_with_pd: {
+            type: Sequelize.STRING,
+            allowNull: false,
+        },
         createdAt: Sequelize.DATE,
         updatedAt: Sequelize.DATE
     }, {

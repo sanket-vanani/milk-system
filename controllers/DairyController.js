@@ -110,7 +110,10 @@ exports.getDairyById = (req, res) => {
 exports.updateDairy = (req, res) => {
     const id = req.params.id
     var obj = req.body
-    obj.password = md5(obj.password)
+
+    if (obj.password != "" || NULL) {
+        obj.password = md5(obj.password)
+    }
     Dairy.update(obj, {
         where: {
             id: id
@@ -122,7 +125,7 @@ exports.updateDairy = (req, res) => {
                     id: id
                 },
                 attributes: {
-                    exclude: ['createdAt', 'updatedAt']
+                    exclude: ['createdAt', 'updatedAt', 'password']
                 }
             })
                 .then(dairy => {
@@ -149,4 +152,30 @@ exports.updateDairy = (req, res) => {
             }
             return res.status(500).json(err);
         })
-}   
+}
+
+exports.removeDairy = (req, res) => {
+    const id = req.params.id
+    Dairy.destroy({
+        where: {
+            id: id
+        }
+    })
+        .then(Dairy => {
+            if (Dairy != undefined) {
+                var data = {
+                    status: true,
+                    message: Dairy + " Dairy Deleted"
+                }
+                return res.status(200).json(data)
+            }
+        })
+        .catch(error => {
+            console.log(error)
+            var err = {
+                status: false,
+                message: error.message
+            }
+            return res.status(500).json(err)
+        })
+}

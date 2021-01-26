@@ -46,6 +46,18 @@ const Customer = sequelize.define('Customer',
             type: Sequelize.STRING,
             allowNull: false
         },
+        customer_name_hindi: {
+            type: Sequelize.STRING,
+            allowNull: false
+        },
+        local_milk_sale_rate_for_buffalo: {
+            type: Sequelize.STRING,
+            allowNull: true
+        },
+        local_milk_sale_rate_for_cow: {
+            type: Sequelize.STRING,
+            allowNull: true
+        },
         createdAt: Sequelize.DATE,
         updatedAt: Sequelize.DATE
     }, {

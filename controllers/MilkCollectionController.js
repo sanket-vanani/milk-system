@@ -28,7 +28,7 @@ exports.getMilkCollection = (req, res) => {
         },
         include: {
             model: Customer,
-            attributes: ['customerName','memberCode']
+            attributes: ['customerName', 'memberCode']
         }
     })
         .then(MilkCollection => {
@@ -128,7 +128,7 @@ exports.getLedger = (req, res) => {
         },
         include: {
             model: Customer,
-            attributes: ['customerName','memberCode']
+            attributes: ['customerName', 'memberCode']
         }
     })
         .then(MilkCollection => {
@@ -163,37 +163,58 @@ exports.getLedger = (req, res) => {
 
 exports.addMilkCollection = (req, res) => {
     var data = req.body
-    MilkCollection.create(data)
-        .then((result) => {
-            console.log("Auto id ", result.id)
-            MilkCollection.findAll({
-                where: {
-                    id: result.id
-                },
-                attributes: {
-                    exclude: ['updatedAt']
-                },
-                include: {
-                    model: Customer,
-                    attributes: ['customerName','memberCode']
+
+    MilkCollection.findAll({
+        where: {
+            CustomerId: data.CustomerId,
+            animalType: data.animalType,
+            addDate: data.addDate,
+            timeslot: data.timeslot
+        }
+    })
+        .then(milkCollectionRes => {
+            if (milkCollectionRes.length > 0) {
+                console.log("Invalid milk collection")
+                let err = {
+                    status: false,
+                    message: "Second time not valid"
                 }
-            })
-                .then(mk => {
-                    let data = {
-                        status: true,
-                        message: "MilkCollection Added",
-                        result: mk
-                    }
-                    return res.status(200).json(data)
-                })
-                .catch((error) => {
-                    console.log(error.message)
-                    let err = {
-                        status: false,
-                        message: error.message
-                    }
-                    return res.status(500).json(err)
-                })
+                return res.status(500).json(err)
+            }
+            else {
+                MilkCollection.create(data)
+                    .then((result) => {
+                        console.log("Auto id ", result.id)
+                        MilkCollection.findAll({
+                            where: {
+                                id: result.id
+                            },
+                            attributes: {
+                                exclude: ['updatedAt']
+                            },
+                            include: {
+                                model: Customer,
+                                attributes: ['customerName', 'memberCode']
+                            }
+                        })
+                            .then(mk => {
+                                let data = {
+                                    status: true,
+                                    message: "MilkCollection Added",
+                                    result: mk
+                                }
+                                return res.status(200).json(data)
+                            })
+                    })
+                    .catch((error) => {
+                        console.log(error.message)
+                        let err = {
+                            status: false,
+                            message: error.message
+                        }
+                        return res.status(500).json(err)
+                    })
+            }
         })
         .catch((error) => {
             console.log(error.message)
@@ -204,6 +225,7 @@ exports.addMilkCollection = (req, res) => {
             return res.status(500).json(err)
         })
 }
+
 
 exports.getMilkCollectionById = (req, res) => {
     const id = req.params.id
@@ -216,7 +238,7 @@ exports.getMilkCollectionById = (req, res) => {
         },
         include: {
             model: Customer,
-            attributes: ['customerName','memberCode']
+            attributes: ['customerName', 'memberCode']
         }
     })
         .then(MilkCollection => {
@@ -267,7 +289,7 @@ exports.editMilkCollection = (req, res) => {
                 },
                 include: {
                     model: Customer,
-                    attributes: ['customerName','memberCode']
+                    attributes: ['customerName', 'memberCode']
                 }
             })
                 .then(mk => {
