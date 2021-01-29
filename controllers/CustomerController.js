@@ -56,25 +56,54 @@ exports.getCustomer = (req, res) => {
 
 exports.addCustomer = (req, res) => {
     const data = req.body
-    Customer.create(data)
-        .then(Customer => {
-            let cust = []
-            cust.push(Customer)
-            let data = {
-                status: true,
-                message: "Customer Inserted",
-                result: cust
+
+    Customer.findAll({
+        where: {
+            DairyId: data.DairyId,
+            memberCode: data.memberCode
+        }
+    })
+        .then(CustomerRes => {
+            if (CustomerRes.length > 0) {
+                console.log("Invalid Member Code")
+                let err = {
+                    status: false,
+                    message: "MemebrCode is not a valid"
+                }
+                return res.status(500).json(err)
             }
-            return res.status(200).json(data);
+            else {
+                Customer.create(data)
+                    .then(Customer => {
+                        let cust = []
+                        cust.push(Customer)
+                        let data = {
+                            status: true,
+                            message: "Customer Inserted",
+                            result: cust
+                        }
+                        return res.status(200).json(data);
+                    })
+                    .catch(error => {
+                        let err = {
+                            status: false,
+                            message: error.message,
+                        }
+                        return res.status(500).json(err)
+                    })
+            }
+
         })
-        .catch(error => {
+        .catch((error) => {
+            console.log(error.message)
             let err = {
                 status: false,
-                message: error.message,
-                // sqlMessage: error.errors[0].message
+                message: error.message
             }
             return res.status(500).json(err)
         })
+
+
 }
 
 exports.getCustomerById = (req, res) => {
