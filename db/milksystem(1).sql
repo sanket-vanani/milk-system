@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 14, 2020 at 03:16 PM
+-- Generation Time: Jan 29, 2021 at 02:14 PM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.2
 
@@ -36,6 +36,13 @@ CREATE TABLE `Admin` (
   `updatedAt` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `Admin`
+--
+
+INSERT INTO `Admin` (`id`, `userName`, `password`, `createdAt`, `updatedAt`) VALUES
+(1, 'admin', 'admin@123', NULL, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -54,6 +61,9 @@ CREATE TABLE `Customer` (
   `villageName` varchar(255) DEFAULT NULL,
   `address` text,
   `memberType` varchar(255) NOT NULL,
+  `customer_name_hindi` varchar(255) NOT NULL,
+  `local_milk_sale_rate_for_buffalo` varchar(255) DEFAULT NULL,
+  `local_milk_sale_rate_for_cow` varchar(255) DEFAULT NULL,
   `createdAt` datetime DEFAULT NULL,
   `updatedAt` datetime DEFAULT NULL,
   `DairyId` int(11) DEFAULT NULL
@@ -113,6 +123,10 @@ CREATE TABLE `MilkCollection` (
   `addDate` varchar(255) NOT NULL,
   `timeslot` varchar(255) NOT NULL,
   `animalType` varchar(255) NOT NULL,
+  `liter_pd` varchar(255) NOT NULL,
+  `fat_pd` varchar(255) NOT NULL,
+  `gov_pd` varchar(255) NOT NULL,
+  `total_rate_with_pd` varchar(255) NOT NULL,
   `createdAt` datetime DEFAULT NULL,
   `updatedAt` datetime DEFAULT NULL,
   `CustomerId` int(11) DEFAULT NULL,
@@ -150,7 +164,6 @@ ALTER TABLE `Admin`
 --
 ALTER TABLE `Customer`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `memberCode` (`memberCode`),
   ADD UNIQUE KEY `phoneNumber` (`phoneNumber`),
   ADD KEY `DairyId` (`DairyId`);
 
@@ -194,7 +207,7 @@ ALTER TABLE `Payment`
 -- AUTO_INCREMENT for table `Admin`
 --
 ALTER TABLE `Admin`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `Customer`
