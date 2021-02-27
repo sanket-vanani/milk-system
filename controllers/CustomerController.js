@@ -3,22 +3,84 @@ const { Op } = require('sequelize')
 
 exports.getCustomer = (req, res) => {
 
-    const { memberType, startMemberId, endMemberId } = req.body
+    const { memberType, startMemberCode, endMemberCode } = req.body
 
     var search
-    if (memberType != "" && startMemberId != "" && endMemberId != "") {
-        search = {
-            DairyId: req.query.dairyid,
-            memberType: memberType,
-            id: {
-                [Op.between]: [startMemberId, endMemberId]
+    // console.log(req.body);
+    if ((endMemberCode === null) && (startMemberCode !== null)) {
+        console.log(1);
+        if (memberType == "") {
+            search = {
+                DairyId: req.query.dairyid,
+                memberCode: {
+                    [Op.gte]: [Number(startMemberCode)]
+                }
+            }
+        }
+        else {
+            search = {
+                DairyId: req.query.dairyid,
+                memberType: memberType,
+                memberCode: {
+                    [Op.gte]: [Number(startMemberCode)]
+                }
+            }
+        }
+    }
+    else if ((endMemberCode !== null) && (startMemberCode === null)) {
+        console.log(2);
+        if (memberType == "") {
+            search = {
+                DairyId: req.query.dairyid,
+                memberCode: {
+                    [Op.lte]: [Number(endMemberCode)]
+                }
+            }
+        }
+        else {
+            search = {
+                DairyId: req.query.dairyid,
+                memberType: memberType,
+                memberCode: {
+                    [Op.lte]: [Number(endMemberCode)]
+                }
+            }
+        }
+    }
+    else if ((startMemberCode !== null) && (endMemberCode !== null)) {
+        console.log(3);
+        if (memberType == "") {
+            search = {
+                DairyId: req.query.dairyid,
+                memberCode: {
+                    [Op.between]: [Number(startMemberCode), Number(endMemberCode)]
+                }
+            }
+        }
+        else {
+            search = {
+                DairyId: req.query.dairyid,
+                memberType: memberType,
+                memberCode: {
+                    [Op.between]: [Number(startMemberCode), Number(endMemberCode)]
+                }
             }
         }
     }
     else {
-        search = {
-            DairyId: req.query.dairyid
+        if (memberType == "") {
+            search = {
+                DairyId: req.query.dairyid
+            }
         }
+        else {
+            search = {
+                memberType: memberType,
+                DairyId: req.query.dairyid
+            }
+        }
+
+
     }
 
     Customer.findAll({

@@ -64,63 +64,125 @@ exports.getLedger = (req, res) => {
 
     const { startDate, endDate, timeslot, startMemberId, endMemberId, animalType } = req.body
     var search
-    if (startDate != "" && endDate != "" && startMemberId != "" && endMemberId != "") {
-        console.log("1")
-        if (timeslot == "" && animalType == "") {
-            search = {
-                DairyId: req.query.dairyid,
-                addDate: {
-                    [Op.between]: [startDate, endDate]
-                },
-                CustomerId: {
-                    [Op.between]: [startMemberId, endMemberId]
-                }
-            }
-        }
-        else if (timeslot != "" && animalType == "") {
-            search = {
-                DairyId: req.query.dairyid,
-                addDate: {
-                    [Op.between]: [startDate, endDate]
-                },
-                CustomerId: {
-                    [Op.between]: [startMemberId, endMemberId]
-                },
-                timeslot: timeslot
-            }
-        }
-        else if (timeslot == "" && animalType != "") {
-            search = {
-                DairyId: req.query.dairyid,
-                addDate: {
-                    [Op.between]: [startDate, endDate]
-                },
-                CustomerId: {
-                    [Op.between]: [startMemberId, endMemberId]
-                },
-                animalType: animalType
-            }
-        }
-        else if (timeslot != "" && animalType != "") {
-            search = {
-                DairyId: req.query.dairyid,
-                addDate: {
-                    [Op.between]: [startDate, endDate]
-                },
-                CustomerId: {
-                    [Op.between]: [startMemberId, endMemberId]
-                },
-                animalType: animalType,
-                timeslot: timeslot
-            }
-        }
-    }
-    else {
-        console.log("2")
+
+    if (startDate == "" && endDate == "" && timeslot == "" && startMemberId === null && endMemberId === null && animalType == "") {
+        console.log(1);
         search = {
             DairyId: req.query.dairyid
         }
     }
+    else if (startMemberId === null && endMemberId === null) {
+        console.log(2);
+        search = {
+            DairyId: req.query.dairyid,
+            addDate: {
+                [Op.between]: [startDate, endDate]
+            },
+            animalType: animalType,
+            timeslot: timeslot
+
+        }
+    }
+    else if (startMemberId === null && endMemberId !== null) {
+        console.log(3);
+        search = {
+            DairyId: req.query.dairyid,
+            addDate: {
+                [Op.between]: [startDate, endDate]
+            },
+            animalType: animalType,
+            timeslot: timeslot,
+            CustomerId: {
+                [Op.lte]: [endMemberId]
+            }
+        }
+    }
+    else if (startMemberId !== null && endMemberId === null) {
+        console.log(4);
+        search = {
+            DairyId: req.query.dairyid,
+            addDate: {
+                [Op.between]: [startDate, endDate]
+            },
+            animalType: animalType,
+            timeslot: timeslot,
+            CustomerId: {
+                [Op.gte]: [startMemberId]
+            }
+        }
+    }
+    else if (startMemberId !== null && endMemberId !== null) {
+        console.log(5);
+        search = {
+            DairyId: req.query.dairyid,
+            addDate: {
+                [Op.between]: [startDate, endDate]
+            },
+            animalType: animalType,
+            timeslot: timeslot,
+            CustomerId: {
+                [Op.between]: [startMemberId, endMemberId]
+            }
+        }
+    }
+
+    // if (startDate != "" && endDate != "" && startMemberId != "" && endMemberId != "") {
+    //     console.log("1")
+    //     if (timeslot == "" && animalType == "") {
+    //         search = {
+    //             DairyId: req.query.dairyid,
+    //             addDate: {
+    //                 [Op.between]: [startDate, endDate]
+    //             },
+    //             CustomerId: {
+    //                 [Op.between]: [startMemberId, endMemberId]
+    //             }
+    //         }
+    //     }
+    //     else if (timeslot != "" && animalType == "") {
+    //         search = {
+    //             DairyId: req.query.dairyid,
+    //             addDate: {
+    //                 [Op.between]: [startDate, endDate]
+    //             },
+    //             CustomerId: {
+    //                 [Op.between]: [startMemberId, endMemberId]
+    //             },
+    //             timeslot: timeslot
+    //         }
+    //     }
+    //     else if (timeslot == "" && animalType != "") {
+    //         search = {
+    //             DairyId: req.query.dairyid,
+    //             addDate: {
+    //                 [Op.between]: [startDate, endDate]
+    //             },
+    //             CustomerId: {
+    //                 [Op.between]: [startMemberId, endMemberId]
+    //             },
+    //             animalType: animalType
+    //         }
+    //     }
+    //     else if (timeslot != "" && animalType != "") {
+    //         search = {
+    //             DairyId: req.query.dairyid,
+    //             addDate: {
+    //                 [Op.between]: [startDate, endDate]
+    //             },
+    //             CustomerId: {
+    //                 [Op.between]: [startMemberId, endMemberId]
+    //             },
+    //             animalType: animalType,
+    //             timeslot: timeslot
+    //         }
+    //     }
+    // }
+    // else {
+    //     console.log("2")
+    //     search = {
+    //         DairyId: req.query.dairyid
+    //     }
+    // }
     MilkCollection.findAll({
         where: search,
         include: {

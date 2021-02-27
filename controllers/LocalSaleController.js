@@ -7,7 +7,22 @@ exports.getLocalSale = (req, res) => {
 
     const { startDate, endDate, timeslot, animalType } = req.body
     var search
-    if (startDate != "" && endDate != "" && timeslot != "" && animalType != "") {
+
+    if (startDate == "" && endDate == "" && timeslot == "" && animalType == "") {
+        search = {
+            DairyId: req.query.dairyid
+        }
+    }
+    else if (animalType == "") {
+        search = {
+            DairyId: req.query.dairyid,
+            saleDate: {
+                [Op.between]: [startDate, endDate]
+            },
+            timeslot: timeslot
+        }
+    }
+    else {
         search = {
             DairyId: req.query.dairyid,
             saleDate: {
@@ -17,20 +32,30 @@ exports.getLocalSale = (req, res) => {
             animalType: animalType
         }
     }
-    else if (startDate != "" && endDate != "" && timeslot == "" && animalType != "") {
-        search = {
-            DairyId: req.query.dairyid,
-            saleDate: {
-                [Op.between]: [startDate, endDate]
-            },
-            animalType: animalType
-        }
-    }
-    else {
-        search = {
-            DairyId: req.query.dairyid
-        }
-    }
+    // if (startDate != "" && endDate != "" && timeslot != "" && animalType != "") {
+    //     search = {
+    //         DairyId: req.query.dairyid,
+    //         saleDate: {
+    //             [Op.between]: [startDate, endDate]
+    //         },
+    //         timeslot: timeslot,
+    //         animalType: animalType
+    //     }
+    // }
+    // else if (startDate != "" && endDate != "" && timeslot == "" && animalType != "") {
+    //     search = {
+    //         DairyId: req.query.dairyid,
+    //         saleDate: {
+    //             [Op.between]: [startDate, endDate]
+    //         },
+    //         animalType: animalType
+    //     }
+    // }
+    // else {
+    //     search = {
+    //         DairyId: req.query.dairyid
+    //     }
+    // }
 
     LocalSale.findAll({
         where: search,
@@ -39,7 +64,7 @@ exports.getLocalSale = (req, res) => {
         },
         include: {
             model: Customer,
-            attributes: ['customerName','memberCode']
+            attributes: ['customerName', 'memberCode']
         }
     })
         .then(LocalSale => {
@@ -84,7 +109,7 @@ exports.addLocalSale = (req, res) => {
                 },
                 include: {
                     model: Customer,
-                    attributes: ['customerName','memberCode']
+                    attributes: ['customerName', 'memberCode']
                 }
             })
                 .then(ls => {
@@ -124,7 +149,7 @@ exports.getLocalSaleById = (req, res) => {
         },
         include: {
             model: Customer,
-            attributes: ['customerName','memberCode']
+            attributes: ['customerName', 'memberCode']
         }
     })
         .then(LocalSale => {
@@ -174,7 +199,7 @@ exports.editLocalSale = (req, res) => {
                 },
                 include: {
                     model: Customer,
-                    attributes: ['customerName','memberCode']
+                    attributes: ['customerName', 'memberCode']
                 }
             })
                 .then(localSale => {
